@@ -1,0 +1,18 @@
+#need to sensitive cookies, in order to bring authorization headers to target
+zuul:
+  host:
+    maxTotalConnections: 200
+    maxPerRouteConnections: 20
+  #ignoreLocalService: false  #totaly a trap
+  #the same with auth permitall
+  #ignoredPatterns: /login/**
+  #ignoredServices: '*'    #Set of service names not to consider for proxying automatically. By default all services in the discovery client will be proxied.
+  routes:
+    user:
+      path: /user/**
+      serviceId: user
+      sensitiveHeaders: Cookie,Set-Cookie
+    book:
+      path: /book/**
+      serviceId: book
+      sensitiveHeaders: Cookie,Set-Cookie

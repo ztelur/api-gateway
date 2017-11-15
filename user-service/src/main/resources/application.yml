@@ -1,0 +1,51 @@
+server:
+  port: 19999
+  undertow:
+    accesslog:
+      enabled: true
+      dir: target/logs
+      pattern: combined
+  compression:
+    enabled: true
+    min-response-size: 1
+
+
+spring:
+  profiles: default
+  cloud:
+    config:
+      discovery:
+        service-id: user
+        enabled: true
+    consul:
+      discovery:
+        preferIpAddress: true
+        enabled: true
+        register: true
+        service-name: user
+        #hostname: localhost
+        health-check-interval: 10s
+        health-check-timeout: 20s
+        heartbeat:
+          enabled: true
+        #health-check-url:
+        #instance-id: server:172.16.33.150:server
+        ip-address: ${HOST_ADDRESS:localhost}
+        port: ${SERVER_PORT:${server.port}}
+        lifecycle:
+          enabled: true
+        scheme: http
+        prefer-agent-address: false
+        register-health-check: true
+        tags: master
+        #health-check-path: ping -c1 google.com >/dev/null
+        #enabled: false
+        #fail-fast: true
+        #default-context: application
+      retry:
+        initial-interval: 1000
+        max-attempts: 4
+        max-interval: 1000
+      host: ${CONSUL_ADDRESS:192.168.1.100}
+      port: ${CONSUL_PORT:8501}
+
